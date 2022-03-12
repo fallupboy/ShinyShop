@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace ShinyShop.Models
 {
-    public class Product
+    public class NFT
     {
         public int Id { get; set; }
-        public string ImateTitle { get; set; }
+        public string ImageName { get; set; }
         public byte[] ImageData { get; set; }
     }
 }

@@ -2,22 +2,22 @@
 
 namespace ShinyShop.Migrations
 {
-    public partial class ModifyProfileModel : Migration
+    public partial class ModifyNFTModel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "ProfileId",
-                table: "Profiles",
-                newName: "Id");
+                name: "Name",
+                table: "NFTs",
+                newName: "ImageName");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "Id",
-                table: "Profiles",
-                newName: "ProfileId");
+                name: "ImageName",
+                table: "NFTs",
+                newName: "Name");
         }
     }
 }

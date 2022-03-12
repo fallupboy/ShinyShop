@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace ShinyShop.Repositories
 {
-    public interface IProductRepository
+    public interface INFTRepository
     {
-        Task<Product> GetItemById(int? id);
+        ShinyShopContext GetContext();
+        Task<NFT> GetItemById(int? id);
         Task<string> GetNameById(int id);
         bool IsExisting(int id);
-        Task<List<Product>> GetAll();
-        void Add(Product product);
-        void Update(Product product);
-        void Remove(Product product);
+        Task<List<NFT>> GetAll();
+        void Add(NFT nft);
+        void Update(NFT nft);
+        void Remove(NFT nft);
         Task SaveChangesAsync();
         
     }

@@ -44,9 +44,10 @@ namespace ShinyShop.Controllers
                 {
                     user = new User { Email = model.Email, Password = cipher.Encrypt(model.Password) };
                     Role userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user");
-                    if (userRole != null)
-                        user.Role = userRole;
+                    if (userRole == null)
+                        return NotFound();
 
+                    user.Role = userRole;
                     _context.Add(user);
                     await _context.SaveChangesAsync();
 

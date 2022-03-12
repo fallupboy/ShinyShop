@@ -10,18 +10,18 @@ using ShinyShop.Models;
 namespace ShinyShop.Migrations
 {
     [DbContext(typeof(ShinyShopContext))]
-    [Migration("20220311161621_ModifyProductModel")]
-    partial class ModifyProductModel
+    [Migration("20220311214550_ModifyNFTModel")]
+    partial class ModifyNFTModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.14")
+                .HasAnnotation("ProductVersion", "5.0.15")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ShinyShop.Models.Product", b =>
+            modelBuilder.Entity("ShinyShop.Models.NFT", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,12 +31,12 @@ namespace ShinyShop.Migrations
                     b.Property<byte[]>("ImageData")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("ImateTitle")
+                    b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("NFTs");
                 });
 
             modelBuilder.Entity("ShinyShop.Models.Role", b =>
@@ -52,18 +52,6 @@ namespace ShinyShop.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "admin"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "user"
-                        });
                 });
 
             modelBuilder.Entity("ShinyShop.Models.User", b =>
@@ -99,15 +87,6 @@ namespace ShinyShop.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "admin@gmail.com",
-                            Password = "admin",
-                            RoleId = 1
-                        });
                 });
 
             modelBuilder.Entity("ShinyShop.Models.User", b =>
