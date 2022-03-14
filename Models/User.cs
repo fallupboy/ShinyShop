@@ -20,7 +20,9 @@ namespace ShinyShop.Models
 
         public string GetFullName()
         {
-            return FirstName + " " + LastName;
+            if (FirstName != null && LastName != null)
+                return FirstName + " " + LastName;
+            else return "None";
         }
 
         public int? RoleId { get; set; }

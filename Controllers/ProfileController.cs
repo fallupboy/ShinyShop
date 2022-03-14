@@ -108,7 +108,7 @@ namespace ShinyShop.Controllers
                 return View();
             }
 
-            return View(_repoNFT.GetNFTsForOutput(myNFTs));
+            return View(myNFTs);
         }
 
         private bool UserExists(int id)

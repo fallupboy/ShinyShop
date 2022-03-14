@@ -1,0 +1,39 @@
+﻿@model ShinyShop.Models.NFT
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<h4>NFT</h4>
+<hr />
+
+<div class="row">
+    <div class="column" style="float: left; margin-bottom: 20px;">
+        <img src="@Url.Content(Model.ImageData)" style="padding: 2px; border: 5px solid #000;"/>
+    </div>
+</div>
+<div class="row">
+    <div class="column" style="float: left;">
+        <p>NFT Name: @Model.ImageName</p>
+    </div>
+</div>
+<div class="row">
+    <div class="column" style="float: left;">
+        @if (Model.User != null)
+        {
+            <p>Owner: @Model.User.GetFullName()</p>
+        }
+        else
+        {
+            <p>Owner: None</p>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="column" style="float: left;">
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>

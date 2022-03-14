@@ -1,22 +1,22 @@
-﻿@model Dictionary<string, string>
+﻿@model IEnumerable<ShinyShop.Models.NFT>
 
 @{
     ViewData["Title"] = "MyNFTs";
 }
 
-<h1>My NFTs</h1>
-@if (Model.Count <= 0)
+<h2>My NFTs</h2>
+@if (Model.Count() <= 0)
 {
-    <h3>You dont have any NFTs</h3>
+    <h4>You don't have any NFTs</h4>
 }
 else
 {
     <div class="row">
         @foreach (var nft in Model)
         {
-            <div class="column" style="float: left; width: 25%; padding: 2px;">
-                <img src="@nft.Value" />
-                <h4 style="text-align: center;">@nft.Key</h4>
+            <div class="column" style="float: left; width: 25%; text-align: center;">
+                <img src="@nft.ImageData" style="padding: 2px; margin-bottom: 10px; border: 5px solid #000;" />
+                <a class="btn btn-primary" asp-action="Details" asp-controller="NFT" asp-route-id="@nft.Id" style="font-size: 15px;">@nft.ImageName | @nft.Id</a>
             </div>
         }
     </div>

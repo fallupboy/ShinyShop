@@ -28,8 +28,21 @@ namespace ShinyShop.Controllers
         {
             List<NFT> nfts = _repo.GetContext().NFTs.OrderBy(i => i.Id).ToList();
             
-            ViewData["NFTs"] = _repo.GetNFTsForOutput(nfts);
-            return View();
+            return View(nfts);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var nft = await _repo.GetContext().NFTs
+                .Include(r => r.User)
+                .FirstOrDefaultAsync(i => i.Id == id);
+            if (nft == null)
+            {
+                return NotFound();
+            }
+
+            return View(nft);
         }
 
         [HttpPost]
@@ -43,7 +56,7 @@ namespace ShinyShop.Controllers
 
                 MemoryStream ms = new MemoryStream();
                 file.CopyTo(ms);
-                nft.ImageData = ms.ToArray();
+                nft.ImageData = _repo.ConvertImageDataToString(ms.ToArray());
                 _repo.Add(nft);
                 await _repo.SaveChangesAsync();
 

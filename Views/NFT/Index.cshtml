@@ -4,6 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
+<h2 style="text-align: center;">Market</h2><hr />
+
 @if (User.IsInRole("admin"))
 {
     <form asp-action="UploadImage" asp-controller="NFT" method="post" enctype="multipart/form-data">
@@ -13,15 +15,14 @@
     <h1>@ViewBag.Message</h1>
 }
 
-
-
-
 <div class="row">
-    @foreach (var data in (Dictionary<string, string>)ViewData["NFTs"])
+    @foreach (var data in Model)
     {
-        <div class="column" style="float: left; width: 25%; padding: 2px;">
-            <img src="@data.Value" />
-            <h4 style="text-align: center;">@data.Key</h4>
+        <div class="column" style="float: left; width: 20%; margin-bottom: 30px; text-align: center;">
+            <img src="@data.ImageData" style="width: 80%; padding: 2px; border: 5px solid #000;"/><br />
+            <div style="text-align: center; padding: 5px;">
+                <a class="btn btn-primary" asp-action="Details" asp-controller="NFT" asp-route-id="@data.Id" style="font-size: 15px;">@data.ImageName | @data.Id</a>
+            </div>
         </div>
     }
 </div>

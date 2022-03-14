@@ -14,7 +14,7 @@ namespace ShinyShop.Repositories
         Task<string> GetNameById(int id);
         bool IsExisting(int id);
         Task<List<NFT>> GetAll();
-        Dictionary<string, string> GetNFTsForOutput(List<NFT> nfts);
+        string ConvertImageDataToString(byte[] data);
         void Add(NFT nft);
         void Update(NFT nft);
         void Remove(NFT nft);
