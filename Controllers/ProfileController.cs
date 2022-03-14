@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShinyShop.Models;
+using ShinyShop.Repositories;
 using ShinyShop.Repositories.IRepositories;
 using ShinyShop.Services;
 using ShinyShop.ViewModels;
@@ -17,10 +18,12 @@ namespace ShinyShop.Controllers
     public class ProfileController : Controller
     {
         private readonly IProfileRepository _repo;
+        private readonly INFTRepository _repoNFT;
 
-        public ProfileController(IProfileRepository repo)
+        public ProfileController(IProfileRepository repo, INFTRepository repoNFT)
         {
             _repo = repo;
+            _repoNFT = repoNFT;
         }
 
         public async Task<IActionResult> Index()
@@ -92,6 +95,20 @@ namespace ShinyShop.Controllers
                 }
             }
             return View(model);
+        }
+        public async Task<IActionResult> MyNFTs()
+        {
+            User currentUser = await _repoNFT.GetContext().Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Email == User.Identity.Name);
+            List<NFT> myNFTs = _repoNFT.GetContext().NFTs.Where(i => i.UserId == currentUser.Id).OrderBy(i => i.Id).ToList();
+
+            if (myNFTs == null)
+            {
+                return View();
+            }
+
+            return View(_repoNFT.GetNFTsForOutput(myNFTs));
         }
 
         private bool UserExists(int id)

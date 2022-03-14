@@ -5,8 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ShinyShop.Models;
 using ShinyShop.Repositories;
+using ShinyShop.Repositories.IRepositories;
 
 namespace ShinyShop.Controllers
 {
@@ -14,31 +16,24 @@ namespace ShinyShop.Controllers
     public class NFTController : Controller
     {
         private readonly INFTRepository _repo;
+        private readonly IProfileRepository _repoProfile;
 
-        public NFTController(INFTRepository repo)
+        public NFTController(INFTRepository repo, IProfileRepository repoProfile)
         {
             _repo = repo;
+            _repoProfile = repoProfile;
         }
 
         public IActionResult Index()
         {
             List<NFT> nfts = _repo.GetContext().NFTs.OrderBy(i => i.Id).ToList();
-            List<string> imageBase64Data = new List<string>();
-            foreach (var nft in nfts)
-            {
-                imageBase64Data.Add(Convert.ToBase64String(nft.ImageData));
-            }
-
-            var imageTitles = nfts.Select(i => i.ImageName);
-            var imageDataURLs = imageBase64Data.Select(i => string.Format("data:image/png;base64,{0}", i));
-
-            var dict = imageTitles.Zip(imageDataURLs, (k, v) => new { k, v })
-                .ToDictionary(x => x.k, x => x.v);
-            ViewData["Products"] = dict;
+            
+            ViewData["NFTs"] = _repo.GetNFTsForOutput(nfts);
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UploadImage()
         {
             foreach (var file in Request.Form.Files)

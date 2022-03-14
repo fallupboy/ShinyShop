@@ -42,6 +42,23 @@ namespace ShinyShop.Repositories
             return await _context.NFTs.ToListAsync();
         }
 
+        public Dictionary<string, string> GetNFTsForOutput(List<NFT> nfts)
+        {
+            List<string> imageBase64Data = new List<string>();
+            foreach (var nft in nfts)
+            {
+                imageBase64Data.Add(Convert.ToBase64String(nft.ImageData));
+            }
+
+            var imageTitles = nfts.Select(i => i.ImageName);
+            var imageDataURLs = imageBase64Data.Select(i => string.Format("data:image/png;base64,{0}", i));
+
+            var nftDict = imageTitles.Zip(imageDataURLs, (k, v) => new { k, v })
+                .ToDictionary(x => x.k, x => x.v);
+
+            return nftDict;
+        }
+
         public void Add(NFT nft)
         {
             _context.Add(nft);

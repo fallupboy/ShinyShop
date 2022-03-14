@@ -4,20 +4,25 @@
     ViewData["Title"] = "Index";
 }
 
-<form asp-action="UploadImage" asp-controller="NFT" method="post" enctype="multipart/form-data">
-    <input class="btn btn-info" type="file" id="file1" name="file1" multiple="multiple" accept=".png" />
-    <button class="btn btn-info" type="submit">Upload file(s)</button>
-</form>
+@if (User.IsInRole("admin"))
+{
+    <form asp-action="UploadImage" asp-controller="NFT" method="post" enctype="multipart/form-data">
+        <input class="btn btn-info" type="file" id="file1" name="file1" multiple="multiple" accept=".png" />
+        <button class="btn btn-info" type="submit">Upload file(s)</button>
+    </form>
+    <h1>@ViewBag.Message</h1>
+}
 
-<h1>@ViewBag.Message</h1>
+
+
 
 <div class="row">
-    @foreach (var data in (Dictionary<string, string>)ViewData["Products"])
+    @foreach (var data in (Dictionary<string, string>)ViewData["NFTs"])
     {
-    <div class="column" style="float: left; width: 25%; padding: 2px;">
-        <img src="@data.Value" />
-        <h4 style="text-align: center;">@data.Key</h4>
-    </div>
+        <div class="column" style="float: left; width: 25%; padding: 2px;">
+            <img src="@data.Value" />
+            <h4 style="text-align: center;">@data.Key</h4>
+        </div>
     }
 </div>
 
