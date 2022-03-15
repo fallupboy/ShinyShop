@@ -14,9 +14,11 @@ else
     <div class="row">
         @foreach (var nft in Model)
         {
-            <div class="column" style="float: left; width: 25%; text-align: center;">
-                <img src="@nft.ImageData" style="padding: 2px; margin-bottom: 10px; border: 5px solid #000;" />
-                <a class="btn btn-primary" asp-action="Details" asp-controller="NFT" asp-route-id="@nft.Id" style="font-size: 15px;">@nft.ImageName | @nft.Id</a>
+            <div class="column" style="float: left; width: 20%; margin-bottom: 30px; text-align: center;">
+                <img src="@nft.ImageData" style="width: 80%; padding: 2px; border: 5px solid #000;" />
+                <div style="padding: 5px;">
+                    <a class="btn btn-primary" asp-action="Details" asp-controller="NFT" asp-route-id="@nft.Id" style="font-size: 15px;">@nft.ImageName | @nft.Id</a>
+                </div>
             </div>
         }
     </div>

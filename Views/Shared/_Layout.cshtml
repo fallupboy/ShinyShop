@@ -6,12 +6,17 @@
     <title>@ViewData["Title"] - ShinyShop</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        .btn:hover {
+            background-color: #1782d0;
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ShinyShop</a>
+                <h5 style="margin: 0; padding: 5px;">ShinyShop</h5>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -19,31 +24,32 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="btn btn-default" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="NFT" asp-action="Index">NFTs Market</a>
+                                <a class="btn btn-default" asp-area="" asp-controller="NFT" asp-action="Index">NFTs Market</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Index">My Profile</a>
+                                <a class="btn btn-default" asp-area="" asp-controller="Profile" asp-action="Index">My Profile</a>
                             </li>
                             @if (User.IsInRole("admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Admin Panel</a>
+                                    <a class="btn btn-default" asp-area="" asp-controller="Admin" asp-action="Index">Admin Panel</a>
                                 </li>
                             }
-                            <li class="nav-item">
+                            <li class="nav-items" style="margin-left: auto;">
                                 <a class="btn btn-danger" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
                             </li>
                         }
                         else
                         {
-                            <li class="nav-item">
+                            <li class="nav-item" style="margin-left: auto;">
                                 <a class="btn btn-success" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
                             </li>
+
                         }
                     </ul>
                 </div>
