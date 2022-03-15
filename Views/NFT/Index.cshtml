@@ -1,10 +1,11 @@
-﻿@model IEnumerable<ShinyShop.Models.NFT>
+﻿@model ShinyShop.Services.PaginatedList<ShinyShop.Models.NFT>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2 style="text-align: center;">Market</h2><hr />
+<h2 style="text-align: center;">Market</h2>
+<hr />
 
 @if (User.IsInRole("admin"))
 {
@@ -15,16 +16,45 @@
     <h1>@ViewBag.Message</h1>
 }
 
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Find by name" />
+            <input type="submit" value="Search" class="btn btn-default" />
+        </p>
+    </div>
+</form>
+
 <div class="row">
     @foreach (var data in Model)
     {
         <div class="column" style="float: left; width: 20%; margin-bottom: 30px; text-align: center;">
-            <img src="@data.ImageData" style="width: 80%; padding: 2px; border: 5px solid #000;"/><br />
+            <img src="@data.ImageData" style="width: 80%; padding: 2px; border: 5px solid #000;" /><br />
             <div style="text-align: center; padding: 5px;">
                 <a class="btn btn-primary" asp-action="Details" asp-controller="NFT" asp-route-id="@data.Id" style="font-size: 15px;">@data.ImageName | @data.Id</a>
             </div>
         </div>
     }
 </div>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
 
 

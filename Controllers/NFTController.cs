@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using ShinyShop.Models;
 using ShinyShop.Repositories;
 using ShinyShop.Repositories.IRepositories;
+using ShinyShop.Services;
 
 namespace ShinyShop.Controllers
 {
@@ -24,11 +25,25 @@ namespace ShinyShop.Controllers
             _repoProfile = repoProfile;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-            List<NFT> nfts = _repo.GetContext().NFTs.OrderBy(i => i.Id).ToList();
-            
-            return View(nfts);
+            ViewData["CurrentSort"] = sortOrder;
+
+            if (searchString != null)
+                pageNumber = 1;
+            else
+                searchString = currentFilter;
+
+            ViewData["CurrentFilter"] = searchString;
+
+            IQueryable<NFT> nfts = _repo.GetContext().NFTs.OrderBy(i => i.Id);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                nfts = nfts.Where(s => s.ImageName.ToLower().Contains(searchString.ToLower()));
+            }
+
+            int pageSize = 20;
+            return View(await PaginatedList<NFT>.CreateAsync(nfts.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         [HttpGet]
