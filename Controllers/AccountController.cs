@@ -39,10 +39,10 @@ namespace ShinyShop.Controllers
             {
                 CipherService cipher = new CipherService(_dataProtectionProvider);
 
-                User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+                User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email || u.Username == model.Username);
                 if (user == null)
                 {
-                    user = new User { Email = model.Email, Password = cipher.Encrypt(model.Password) };
+                    user = new User { Username = model.Username, Email = model.Email, Password = cipher.Encrypt(model.Password) };
                     Role userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user");
                     if (userRole == null)
                         return NotFound();
@@ -56,7 +56,10 @@ namespace ShinyShop.Controllers
                     return RedirectToAction("Index", "Home");
                 }
                 else
-                    ViewBag.EmailAlreadyExistsError = "This email already exists!";
+                    if (user.Username == model.Username)
+                        ViewBag.UsernameAlreadyExistsError = "This username already exists!";
+                    else if (user.Email == model.Email)
+                        ViewBag.EmailAlreadyExistsError = "This email already exists!";
             }
             return View(model);
         }
@@ -76,7 +79,7 @@ namespace ShinyShop.Controllers
             {
                 User user = await _context.Users
                     .Include(u => u.Role)
-                    .FirstOrDefaultAsync(u => u.Email == model.Email);
+                    .FirstOrDefaultAsync(u => u.Email == model.Username || u.Username == model.Username);
 
                 if (user != null && cipher.Decrypt(user.Password) == model.Password)
                 {
@@ -84,7 +87,7 @@ namespace ShinyShop.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-            ViewBag.IncorrectAuthInputError = "Incorrect login and(or) password. Try again.";
+            ViewBag.IncorrectAuthInputError = "Incorrect username and(or) password. Try again.";
             return View(model);
         }
 

@@ -9,6 +9,9 @@ namespace ShinyShop.ViewModels
     public class RegisterViewModel
     {
         [Required]
+        public string Username { get; set; }
+
+        [Required]
         public string Email { get; set; }
 
         [Required]
@@ -20,6 +23,5 @@ namespace ShinyShop.ViewModels
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
         public string PasswordConfirm { get; set; }
-
     }
 }

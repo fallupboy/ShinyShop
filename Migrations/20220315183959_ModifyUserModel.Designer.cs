@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShinyShop.Models;
 
 namespace ShinyShop.Migrations
 {
     [DbContext(typeof(ShinyShopContext))]
-    partial class ShinyShopContextModelSnapshot : ModelSnapshot
+    [Migration("20220315183959_ModifyUserModel")]
+    partial class ModifyUserModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

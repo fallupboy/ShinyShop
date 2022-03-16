@@ -6,7 +6,7 @@
 
 <h1>Details</h1>
 
-<h4>NFT</h4>
+<h4>@Model.ImageName</h4>
 <hr />
 
 <div class="row">
@@ -16,14 +16,9 @@
 </div>
 <div class="row">
     <div class="column" style="float: left;">
-        <p>NFT Name: @Model.ImageName</p>
-    </div>
-</div>
-<div class="row">
-    <div class="column" style="float: left;">
         @if (Model.User != null)
         {
-            <p>Owner: @Model.User.GetFullName()</p>
+            <p>Owner: @Model.User.Username</p>
         }
         else
         {
@@ -33,7 +28,6 @@
 </div>
 <div class="row">
     <div class="column" style="float: left;">
-        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
         <a class="btn btn-primary" asp-action="Index">Back to List</a>
     </div>
 </div>

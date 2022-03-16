@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ShinyShop.Models;
+using ShinyShop.Repositories.IRepositories;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,15 +13,18 @@ namespace ShinyShop.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IProfileRepository _repoProfile;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IProfileRepository repoProfile)
         {
             _logger = logger;
+            _repoProfile = repoProfile;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            User currUser = await _repoProfile.GetCurrentUser(User);
+            return View(currUser);
         }
 
         public IActionResult Privacy()

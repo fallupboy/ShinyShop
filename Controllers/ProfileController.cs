@@ -50,7 +50,7 @@ namespace ShinyShop.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Address,City")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Username,Address,City")] User user)
         {
             if (!UserExists(id))
             {
@@ -61,8 +61,7 @@ namespace ShinyShop.Controllers
             {
                 User currentUser = await _repo.GetCurrentUser(User);
 
-                currentUser.FirstName = user.FirstName;
-                currentUser.LastName = user.LastName;
+                currentUser.Username = user.Username;
                 currentUser.Address = user.Address;
                 currentUser.City = user.City;
 

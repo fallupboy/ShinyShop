@@ -1,11 +1,13 @@
-﻿@{
+﻿@model ShinyShop.Models.User
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     @if (User.Identity.IsAuthenticated)
     {
-        <h1 class="display-4">Welcome, @User.Identity.Name!</h1>
+        <h1 class="display-4">Hello @Model.Username!</h1>
     }
     else
     {
