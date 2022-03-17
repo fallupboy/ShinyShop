@@ -115,12 +115,12 @@ namespace ShinyShop.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateMessage()
+        public IActionResult SendMessage()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CreateMessage(CreateMessageViewModel viewModel)
+        public async Task<IActionResult> SendMessage(CreateMessageViewModel viewModel)
         {
             User currentUser = await _repo.GetCurrentUser(User);
             User recepientUser = await _repo.GetContext().Users.FirstOrDefaultAsync(u => u.Username == viewModel.Recipient);
@@ -133,9 +133,14 @@ namespace ShinyShop.Controllers
                     SenderUsername = currentUser.Username
                 });
                 await _repo.SaveChangesAsync();
-                return View();
+                return RedirectToAction("SendMessageSuccess", "Profile");
             }
             return View(viewModel);
+        }
+
+        public IActionResult SendMessageSuccess()
+        {
+            return View();
         }
 
         private bool UserExists(int id)
