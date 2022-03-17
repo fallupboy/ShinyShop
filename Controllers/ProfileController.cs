@@ -97,9 +97,7 @@ namespace ShinyShop.Controllers
         }
         public async Task<IActionResult> MyNFTs()
         {
-            User currentUser = await _repoNFT.GetContext().Users
-                .Include(u => u.Role)
-                .FirstOrDefaultAsync(u => u.Email == User.Identity.Name);
+            User currentUser = await _repo.GetCurrentUser(User);
             List<NFT> myNFTs = _repoNFT.GetContext().NFTs.Where(i => i.UserId == currentUser.Id).OrderBy(i => i.Id).ToList();
 
             if (myNFTs == null)
@@ -108,6 +106,36 @@ namespace ShinyShop.Controllers
             }
 
             return View(myNFTs);
+        }
+
+        public async Task<IActionResult> MyMessages()
+        {
+            User currentUser = await _repo.GetCurrentUser(User);
+            return View(currentUser.Messages);
+        }
+
+        [HttpGet]
+        public IActionResult CreateMessage()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateMessage(CreateMessageViewModel viewModel)
+        {
+            User currentUser = await _repo.GetCurrentUser(User);
+            User recepientUser = await _repo.GetContext().Users.FirstOrDefaultAsync(u => u.Username == viewModel.Recipient);
+            if (recepientUser != null)
+            {
+                recepientUser.Messages.Add(new Message()
+                {
+                    Text = viewModel.Message,
+                    Recipient = recepientUser,
+                    SenderUsername = currentUser.Username
+                });
+                await _repo.SaveChangesAsync();
+                return View();
+            }
+            return View(viewModel);
         }
 
         private bool UserExists(int id)

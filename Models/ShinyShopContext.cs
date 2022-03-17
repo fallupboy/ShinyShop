@@ -11,9 +11,15 @@ namespace ShinyShop.Models
         public DbSet<NFT> NFTs { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         public ShinyShopContext(DbContextOptions<ShinyShopContext> options)
             : base(options)
         { }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Message>().HasOne(u => u.Recipient).WithMany(u => u.Messages).HasForeignKey("RecipientId");
+        }
     }
 }

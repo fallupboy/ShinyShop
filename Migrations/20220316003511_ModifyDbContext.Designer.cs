@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShinyShop.Models;
 
 namespace ShinyShop.Migrations
 {
     [DbContext(typeof(ShinyShopContext))]
-    partial class ShinyShopContextModelSnapshot : ModelSnapshot
+    [Migration("20220316003511_ModifyDbContext")]
+    partial class ModifyDbContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,18 +28,15 @@ namespace ShinyShop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("RecipientId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SenderUsername")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("RecipientId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Messages");
                 });
@@ -114,11 +113,11 @@ namespace ShinyShop.Migrations
 
             modelBuilder.Entity("ShinyShop.Models.Message", b =>
                 {
-                    b.HasOne("ShinyShop.Models.User", "Recipient")
+                    b.HasOne("ShinyShop.Models.User", "User")
                         .WithMany("Messages")
-                        .HasForeignKey("RecipientId");
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("Recipient");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ShinyShop.Models.NFT", b =>

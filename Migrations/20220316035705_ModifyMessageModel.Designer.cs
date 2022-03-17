@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShinyShop.Models;
 
 namespace ShinyShop.Migrations
 {
     [DbContext(typeof(ShinyShopContext))]
-    partial class ShinyShopContextModelSnapshot : ModelSnapshot
+    [Migration("20220316035705_ModifyMessageModel")]
+    partial class ModifyMessageModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,8 +31,8 @@ namespace ShinyShop.Migrations
                     b.Property<int?>("RecipientId")
                         .HasColumnType("int");
 
-                    b.Property<string>("SenderUsername")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("SenderId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
@@ -38,6 +40,8 @@ namespace ShinyShop.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
 
                     b.ToTable("Messages");
                 });
@@ -118,7 +122,13 @@ namespace ShinyShop.Migrations
                         .WithMany("Messages")
                         .HasForeignKey("RecipientId");
 
+                    b.HasOne("ShinyShop.Models.User", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId");
+
                     b.Navigation("Recipient");
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("ShinyShop.Models.NFT", b =>

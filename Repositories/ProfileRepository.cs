@@ -22,11 +22,16 @@ namespace ShinyShop.Repositories
             _context = context;
             _dataProtectionProvider = dataProtectionProvider;
         }
+        public ShinyShopContext GetContext()
+        {
+            return _context;
+        }
 
         public async Task<User> GetCurrentUser(ClaimsPrincipal user)
         {
             User currentUser = await _context.Users
                 .Include(u => u.Role)
+                .Include(m => m.Messages)
                 .FirstOrDefaultAsync(u => u.Email == user.Identity.Name);
             return currentUser;
         }

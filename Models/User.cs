@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShinyShop.Repositories.IRepositories;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,5 +17,11 @@ namespace ShinyShop.Models
         public string City { get; set; }
         public int? RoleId { get; set; }
         public Role Role { get; set; }
+        public List<Message> Messages { get; set; }
+
+        public User()
+        {
+            Messages = new List<Message>();
+        }
     }
 }

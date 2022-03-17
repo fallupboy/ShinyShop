@@ -12,12 +12,10 @@ namespace ShinyShop.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IProfileRepository _repoProfile;
 
-        public HomeController(ILogger<HomeController> logger, IProfileRepository repoProfile)
+        public HomeController(IProfileRepository repoProfile)
         {
-            _logger = logger;
             _repoProfile = repoProfile;
         }
 

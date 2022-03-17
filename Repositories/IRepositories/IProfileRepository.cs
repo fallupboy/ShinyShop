@@ -10,6 +10,7 @@ namespace ShinyShop.Repositories.IRepositories
 {
     public interface IProfileRepository
     {
+        ShinyShopContext GetContext();
         Task<User> GetCurrentUser(ClaimsPrincipal user);
         IDataProtectionProvider GetDataProtectionProvider();
         Task SaveChangesAsync();

@@ -84,6 +84,7 @@ namespace ShinyShop.Controllers
                 if (user != null && cipher.Decrypt(user.Password) == model.Password)
                 {
                     await Authenticate(user);
+                    //GetUserMessages(user);
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -109,6 +110,15 @@ namespace ShinyShop.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");
+        }
+
+        public void GetUserMessages(User user)
+        {
+            var userMessages = _context.Messages.Where(m => m.Recipient.Id == user.Id);
+            foreach (var message in userMessages)
+            {
+                user.Messages.Add(message);
+            }
         }
     }
 }
