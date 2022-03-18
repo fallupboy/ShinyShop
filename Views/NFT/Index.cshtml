@@ -1,8 +1,9 @@
-﻿@model ShinyShop.Services.PaginatedList<ShinyShop.Models.NFT>
+﻿@model IQueryable<ShinyShop.Models.NFT>
 
 @{
     ViewData["Title"] = "Index";
 }
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 <h2 style="text-align: center;">Market</h2>
 <hr />
@@ -19,13 +20,12 @@
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Find by name"/>
-            <input type="submit" value="Search" class="btn btn-default" />
+            <input id="myInput" type="text" name="SearchString" placeholder="Find by name" />
         </p>
     </div>
 </form>
 
-<div class="row">
+@*<div class="row">
     @foreach (var data in Model)
     {
         <div class="column" style="float: left; width: 20%; margin-bottom: 30px; text-align: center;">
@@ -35,26 +35,8 @@
             </div>
         </div>
     }
+</div>*@
+
+<div id="imgRow" class="row">
+
 </div>
-
-@{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-}
-
-<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex - 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   class="btn btn-default @prevDisabled">
-    Previous
-</a>
-<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex + 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   class="btn btn-default @nextDisabled">
-    Next
-</a>
-
-

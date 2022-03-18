@@ -25,25 +25,18 @@ namespace ShinyShop.Controllers
             _repoProfile = repoProfile;
         }
 
-        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
+        [HttpGet]
+        public IActionResult Index()
         {
-            ViewData["CurrentSort"] = sortOrder;
-
-            if (searchString != null)
-                pageNumber = 1;
-            else
-                searchString = currentFilter;
-
-            ViewData["CurrentFilter"] = searchString;
-
             IQueryable<NFT> nfts = _repo.GetContext().NFTs.OrderBy(i => i.Id);
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                nfts = nfts.Where(s => s.ImageName.ToLower().Contains(searchString.ToLower()));
-            }
+            return View(nfts);
+        }
 
-            int pageSize = 20;
-            return View(await PaginatedList<NFT>.CreateAsync(nfts.AsNoTracking(), pageNumber ?? 1, pageSize));
+        [HttpGet]
+        public JsonResult getIndexData()
+        {
+            var nfts = _repo.GetContext().NFTs;
+            return Json(nfts);
         }
 
         [HttpGet]
